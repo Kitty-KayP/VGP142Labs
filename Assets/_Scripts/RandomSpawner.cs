@@ -18,6 +18,7 @@ public class RandomSpawn : MonoBehaviour
 
     void Start()
     {
+        TriggerIntentionalExceptions();
         // Check if there are enough spawn points
         if (spawnPoints.Length == 0)
         {
@@ -81,6 +82,30 @@ public class RandomSpawn : MonoBehaviour
             }
         }
         return newArray;
+    }
+    private void TriggerIntentionalExceptions()
+    {
+        try
+        {
+            // Intentional null reference exception
+            GameObject nullObject = null;
+            nullObject.transform.position = Vector3.zero;
+        }
+        catch (System.NullReferenceException e)
+        {
+            Debug.LogWarning("NullReferenceException triggered: " + e.Message);
+        }
+
+        try
+        {
+            // Intentional out of range exception
+            int[] numbers = new int[3];
+            int outOfRangeNumber = numbers[5];
+        }
+        catch (System.IndexOutOfRangeException e)
+        {
+            Debug.LogWarning("IndexOutOfRangeException triggered: " + e.Message);
+        }
     }
 }
 
