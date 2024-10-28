@@ -17,6 +17,7 @@ public class CollisionException : MonoBehaviour
     // Alternatively, if using triggers instead of colliders
     private void OnTriggerEnter(Collider other)
     {
+
         if (other.CompareTag("Player"))  // Check if the object entering the trigger is the Player
         {
             throw new Exception("Player collided with a power-up!");
