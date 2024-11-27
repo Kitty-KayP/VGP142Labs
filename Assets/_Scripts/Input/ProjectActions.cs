@@ -35,6 +35,15 @@ public partial class @ProjectActions: IInputActionCollection2, IDisposable
                     ""processors"": ""NormalizeVector2"",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Drop"",
+                    ""type"": ""Button"",
+                    ""id"": ""54e0cb3c-cc5f-4187-afdb-4e8be094323b"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -147,6 +156,17 @@ public partial class @ProjectActions: IInputActionCollection2, IDisposable
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""213cc674-b5ac-4183-8702-4469993c93c0"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Drop"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -156,6 +176,7 @@ public partial class @ProjectActions: IInputActionCollection2, IDisposable
         // Overworld
         m_Overworld = asset.FindActionMap("Overworld", throwIfNotFound: true);
         m_Overworld_Move = m_Overworld.FindAction("Move", throwIfNotFound: true);
+        m_Overworld_Drop = m_Overworld.FindAction("Drop", throwIfNotFound: true);
     }
 
     ~@ProjectActions()
@@ -223,11 +244,13 @@ public partial class @ProjectActions: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Overworld;
     private List<IOverworldActions> m_OverworldActionsCallbackInterfaces = new List<IOverworldActions>();
     private readonly InputAction m_Overworld_Move;
+    private readonly InputAction m_Overworld_Drop;
     public struct OverworldActions
     {
         private @ProjectActions m_Wrapper;
         public OverworldActions(@ProjectActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_Overworld_Move;
+        public InputAction @Drop => m_Wrapper.m_Overworld_Drop;
         public InputActionMap Get() { return m_Wrapper.m_Overworld; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -240,6 +263,9 @@ public partial class @ProjectActions: IInputActionCollection2, IDisposable
             @Move.started += instance.OnMove;
             @Move.performed += instance.OnMove;
             @Move.canceled += instance.OnMove;
+            @Drop.started += instance.OnDrop;
+            @Drop.performed += instance.OnDrop;
+            @Drop.canceled += instance.OnDrop;
         }
 
         private void UnregisterCallbacks(IOverworldActions instance)
@@ -247,6 +273,9 @@ public partial class @ProjectActions: IInputActionCollection2, IDisposable
             @Move.started -= instance.OnMove;
             @Move.performed -= instance.OnMove;
             @Move.canceled -= instance.OnMove;
+            @Drop.started -= instance.OnDrop;
+            @Drop.performed -= instance.OnDrop;
+            @Drop.canceled -= instance.OnDrop;
         }
 
         public void RemoveCallbacks(IOverworldActions instance)
@@ -267,5 +296,6 @@ public partial class @ProjectActions: IInputActionCollection2, IDisposable
     public interface IOverworldActions
     {
         void OnMove(InputAction.CallbackContext context);
+        void OnDrop(InputAction.CallbackContext context);
     }
 }

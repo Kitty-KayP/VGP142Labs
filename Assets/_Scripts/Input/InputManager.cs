@@ -18,6 +18,8 @@ public class InputManager : Singleton<InputManager>
         inputs.Enable();
         inputs.Overworld.Move.performed += controller.OnMove;
         inputs.Overworld.Move.canceled += controller.MoveCancelled;
+        inputs.Overworld.Drop.performed += controller.DropWeapon;
+        inputs.Overworld.Attack.performed += controller.Attack;
     }
 
     private void OnDisable()
@@ -25,6 +27,8 @@ public class InputManager : Singleton<InputManager>
         inputs.Disable();
         inputs.Overworld.Move.performed -= controller.OnMove;
         inputs.Overworld.Move.canceled -= controller.MoveCancelled;
+        inputs.Overworld.Drop.performed -= controller.DropWeapon;
+        inputs.Overworld.Attack.performed -= controller.Attack;
     }
 
     // Start is called before the first frame update
@@ -39,6 +43,8 @@ public class InputManager : Singleton<InputManager>
 
     }
 }
+
+
 
 
 
